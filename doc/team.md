@@ -13,3 +13,7 @@ I am Jake Kelly, I work for Mitre as a Microelectronics Security Analyst. I have
 
 ## Wenli Gai
 Hello, my name is Wenli Gai, and I am currently a second-year student at Boston University, pursuing a Master's degree in Computer Science. I have experience in programming with Java and Python, and I recently completed courses in Database Management and Data Analysis. I am skilled in using SQL for database queries and R for data analysis. Last semester, I worked on a team project where we developed a web application for recording student attendance. This experience strengthened my skills in both software development and collaboration within a team. I am excited to continue growing in these areas and contributing to impactful projects.
+
+
+## Meng Zhou
+My name is Meng Zhou, and I am currently in my second semester of the METCS program. I completed my undergraduate studies in China and do not have any related work experience yet. I am familiar with Java and other related technologies. My goal is to focus on backend development, and I am currently working hard to build my skills in that area.
