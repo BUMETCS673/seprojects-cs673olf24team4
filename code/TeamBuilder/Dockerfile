@@ -1,7 +1,9 @@
 FROM openjdk:17-jdk-slim AS build
 
 WORKDIR /app
-COPY ./target/TeamBuilder-0.0.1-SNAPSHOT.jar /app/
+
+COPY target/*.jar app.jar
 
 EXPOSE 8080
-CMD ["java","-jar","TeamBuilder-0.0.1-SNAPSHOT.jar"]
+
+ENTRYPOINT ["java","-jar","/app/app.jar"]
