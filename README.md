@@ -35,7 +35,7 @@ The primary motivation behind TeamBuilder is to streamline the team formation pr
 Jake Kelly
 
 ### Design and Implementation Leader
-Meng Zhou
+Max Zink
 
 ### Configuration Leader
 Raymond Chen
