@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'team-builder-web' title`, () => {
+  it(`should have the 'Team Builder' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('team-builder-web');
+    expect(app.title).toEqual('Team Builder');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, team-builder-web');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Team Builder');
   });
 });
