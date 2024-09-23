@@ -3,6 +3,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SidenavComponent } from './sidenav.component';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { StudentDetailsComponent } from '../student-details/student-details.component';
 
 describe('SidenavComponent', () => {
   let component: SidenavComponent;
@@ -10,7 +12,12 @@ describe('SidenavComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule]
+      imports: [
+        NoopAnimationsModule,
+        RouterModule.forRoot([
+          {path: 'student-details', component: StudentDetailsComponent}
+        ]),
+      ]
     }).compileComponents();
   }));
 

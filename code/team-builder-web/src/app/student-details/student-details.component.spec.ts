@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StudentDetailsComponent } from './student-details.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('StudentDetailsComponent', () => {
   let component: StudentDetailsComponent;
@@ -8,7 +9,10 @@ describe('StudentDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StudentDetailsComponent]
+      imports: [
+        StudentDetailsComponent,
+        NoopAnimationsModule
+      ]
     })
     .compileComponents();
 
@@ -17,7 +21,7 @@ describe('StudentDetailsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create student-details', () => {
     expect(component).toBeTruthy();
   });
 });
