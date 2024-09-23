@@ -28,10 +28,13 @@ public class UserService {
     }
 
     public User updateUser(Long id, User userDetails) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
         user.setName(userDetails.getName());
         user.setEmail(userDetails.getEmail());
         user.setRole(userDetails.getRole());
+        user.setAnswers(userDetails.getAnswers());
+
         return userRepository.save(user);
     }
 }
