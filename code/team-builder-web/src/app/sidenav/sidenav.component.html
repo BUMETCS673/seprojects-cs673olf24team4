@@ -11,7 +11,7 @@
           <span>Home</span>
         </div>
       </a>
-      <a mat-list-item href="#">
+      <a mat-list-item routerLink="/student-details">
         <div class="sidenav-list-item">
           <span class="material-symbols-outlined">person_add</span>
           <span>Add Student</span>
@@ -26,6 +26,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <!-- Add content here -->
+    <!-- This is where the routed components will be rendered -->
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
