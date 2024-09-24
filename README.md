@@ -29,6 +29,12 @@ The primary motivation behind TeamBuilder is to streamline the team formation pr
 
 ## Getting Started
 
+### Running the application locally
+
+```shell
+mvn spring-boot:run
+```
+
 ## Collaborators
 
 ### Team and Requirement Leader
