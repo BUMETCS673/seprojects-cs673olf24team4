@@ -29,13 +29,19 @@ The primary motivation behind TeamBuilder is to streamline the team formation pr
 
 ## Getting Started
 
+### Running the application locally
+
+```shell
+mvn spring-boot:run
+```
+
 ## Collaborators
 
 ### Team and Requirement Leader
 Jake Kelly
 
 ### Design and Implementation Leader
-Meng Zhou
+Max Zink
 
 ### Configuration Leader
 Raymond Chen
