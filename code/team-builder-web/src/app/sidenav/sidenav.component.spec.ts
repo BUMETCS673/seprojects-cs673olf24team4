@@ -4,7 +4,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavComponent } from './sidenav.component';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { StudentDetailsComponent } from '../student-details/student-details.component';
+import { UserDetailsComponent } from '../user-details/user-details.component';
 
 describe('SidenavComponent', () => {
   let component: SidenavComponent;
@@ -15,7 +15,7 @@ describe('SidenavComponent', () => {
       imports: [
         NoopAnimationsModule,
         RouterModule.forRoot([
-          {path: 'student-details', component: StudentDetailsComponent}
+          {path: 'user-details', component: UserDetailsComponent}
         ]),
       ]
     }).compileComponents();
@@ -31,13 +31,13 @@ describe('SidenavComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have three navigation items - Home, Add Student, View/Edit Students', () => {
+  it('should have three navigation items - Home, Add User, View/Edit Users', () => {
     const navListItems = fixture.debugElement.queryAll(By.css('.sidenav-list-item'));
 
     expect(navListItems.length).toBe(3);
     expect(navListItems[0].query(By.css('span:nth-child(2)')).nativeElement.textContent.trim()).toBe('Home');
-    expect(navListItems[1].query(By.css('span:nth-child(2)')).nativeElement.textContent.trim()).toBe('Add Student');
-    expect(navListItems[2].query(By.css('span:nth-child(2)')).nativeElement.textContent.trim()).toBe('View/Edit Students');
+    expect(navListItems[1].query(By.css('span:nth-child(2)')).nativeElement.textContent.trim()).toBe('Add User');
+    expect(navListItems[2].query(By.css('span:nth-child(2)')).nativeElement.textContent.trim()).toBe('View/Edit Users');
   });
 
 });
