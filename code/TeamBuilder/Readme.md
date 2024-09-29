@@ -36,3 +36,11 @@ Step 3: Access the Application
 ```
 http://localhost:8080
 ```
+
+## Running the Test with Docker separately
+```
+docker build --target test -t teambuilder-test .
+```
+```
+docker run --rm teambuilder-test mvn test
+```
