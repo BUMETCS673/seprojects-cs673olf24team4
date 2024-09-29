@@ -1,0 +1,50 @@
+<div class="view-users-container">
+    <mat-card class="users-card" appearance="outlined">
+        <mat-card-content>
+            <table mat-table [dataSource]="users" class="flat-table" matSort>
+
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                    <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                    <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                    <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="degree">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Degree</th>
+                    <td mat-cell *matCellDef="let user">{{ user.degree }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="concentration">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Concentration</th>
+                    <td mat-cell *matCellDef="let user">{{ user.concentration }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let user">
+                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                            <span class="material-symbols-outlined">more_horiz</span>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="editUser(user)">Edit</button>
+                            <button mat-menu-item (click)="deleteUser(user)">Delete</button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+
+                <!-- Header and Row Declarations -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
+</div>
