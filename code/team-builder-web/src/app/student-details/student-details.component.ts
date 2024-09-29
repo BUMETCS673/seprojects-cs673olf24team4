@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-  selector: 'user-details',
+  selector: 'app-student-details',
   standalone: true,
   imports: [
     MatCardModule,
@@ -18,15 +18,15 @@ import { MatSelectModule } from '@angular/material/select';
     MatButtonModule,
     MatSelectModule
   ],
-  templateUrl: './user-details.component.html',
-  styleUrl: './user-details.component.scss'
+  templateUrl: './student-details.component.html',
+  styleUrl: './student-details.component.scss'
 })
-export class UserDetailsComponent {
+export class StudentDetailsComponent {
   
-  userForm: FormGroup;
+  studentForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.userForm = this.fb.group({
+    this.studentForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       degree: ['', Validators.required],
@@ -39,9 +39,9 @@ export class UserDetailsComponent {
   }
 
   submit(): void {
-    if (this.userForm.valid) {
-      const userData = this.userForm.value;
-      console.log('User Data:', userData);
+    if (this.studentForm.valid) {
+      const studentData = this.studentForm.value;
+      console.log('Student Data:', studentData);
     }
   }
 

@@ -1,9 +1,9 @@
-<div class="add-user-container">
-    <form [formGroup]="userForm" (ngSubmit)="submit()" style="height: 100%;">
+<div class="add-student-container">
+    <form [formGroup]="studentForm" (ngSubmit)="submit()" style="height: 100%;">
         <div class="form-container">
             <div class="form-columns">
                 <!-- Basic Details Column -->
-                <mat-card class="user-card" appearance="outlined">
+                <mat-card class="student-card" appearance="outlined">
                     <mat-card-header>
                         <mat-card-title>Basic Details</mat-card-title>
                     </mat-card-header>
@@ -31,7 +31,7 @@
                 </mat-card>
     
                 <!-- Skills & Experience Column -->
-                <mat-card class="user-card" appearance="outlined">
+                <mat-card class="student-card" appearance="outlined">
                     <mat-card-header>
                         <mat-card-title>Skills & Experience</mat-card-title>
                     </mat-card-header>
@@ -41,7 +41,7 @@
                 </mat-card>
     
                 <!-- Preferences Column -->
-                <mat-card class="user-card" appearance="outlined">
+                <mat-card class="student-card" appearance="outlined">
                     <mat-card-header>
                         <mat-card-title>Preferences</mat-card-title>
                     </mat-card-header>
@@ -51,7 +51,7 @@
                 </mat-card>
             </div>
             <div class="submit-button">
-                <button mat-flat-button color="primary" type="submit" [disabled]="userForm.invalid">Save</button>
+                <button mat-flat-button color="primary" type="submit" [disabled]="studentForm.invalid">Save</button>
             </div>
         </div>
     </form>

@@ -1,4 +1,4 @@
-.add-user-container {
+.add-student-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -22,7 +22,7 @@
     flex-grow: 1;
 }
 
-.user-card {
+.student-card {
     flex: 1; /* Each card takes equal space */
     min-width: 250px; /* Prevents cards from shrinking too small */
 }
