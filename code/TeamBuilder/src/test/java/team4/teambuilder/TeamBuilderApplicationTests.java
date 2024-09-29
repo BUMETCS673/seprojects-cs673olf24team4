@@ -69,11 +69,13 @@ class TeamBuilderApplicationTests {
 
     @Test
     public void testTeamAssignment() {
+        long initialCount = userRepository.count();
         List<List<User>> teams = teamAssignmentService.assignTeams(3);
         assertEquals(3, teams.size());
         assertTrue(teams.get(0).size() >= 1);
         assertTrue(teams.get(1).size() >= 1);
         assertTrue(teams.get(2).size() >= 1);
+        assertTrue(teams.get(0).size() + teams.get(1).size() + teams.get(2).size() == initialCount);
     }
 
 }
