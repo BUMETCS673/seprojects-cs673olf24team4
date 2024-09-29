@@ -37,5 +37,12 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    public User submitAnswers(Long userId, List<String> answers) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        user.setAnswers(answers);
+        return userRepository.save(user);
+    }
 }
 
