@@ -10,9 +10,52 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+## Build and run using Docker
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Build the Docker Image
+
+Run the following command in the root directory of project `code/team-builder-web`:
+
+```
+docker build -t team-builder-app .
+```
+- `-t team-builder-app`: This tags the Docker image with the name team-builder-app
+
+### Run the Docker Container
+
+Run the following command to start a container from the team-builder-app image:
+
+```
+docker run -d -p 8080:80 --name team-builder-container team-builder-app
+```
+- `-d`: Runs the container in detached mode (in the background)
+- `-p 8080:80`: Maps port 8080 on your host machine to port 80 in the container (where Nginx is serving the app)
+- `--name team-builder-container`: Assigns a name to the running container for easier management
+
+### Access the application
+
+Once the container is running, you can access the TeamBuilder app by opening your web browser and navigating to:
+
+```
+http://localhost:8080
+```
+
+### Customizing the port
+
+If you want to run the application on a different port (e.g., port 4000), you can modify the port mapping:
+
+```
+docker run -d -p 4000:80 --name team-builder-container team-builder-app
+```
+Now you can access the application at:
+```
+http://localhost:4000
+```
+
+
+## Run locally
+
+Run `ng serve --open` to run the application locally
 
 ## Running unit tests
 
