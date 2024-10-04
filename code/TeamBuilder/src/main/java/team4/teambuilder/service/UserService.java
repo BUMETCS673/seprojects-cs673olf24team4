@@ -1,0 +1,51 @@
+package team4.teambuilder.service;
+
+import team4.teambuilder.model.User;
+import team4.teambuilder.repository.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public User createUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public User updateUser(Long id, User userDetails) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        user.setName(userDetails.getName());
+        user.setEmail(userDetails.getEmail());
+        user.setRole(userDetails.getRole());
+        user.setAnswers(userDetails.getAnswers());
+
+        return userRepository.save(user);
+    }
+
+    public User submitAnswers(Long userId, List<String> answers) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        user.setAnswers(answers);
+        return userRepository.save(user);
+    }
+}
+

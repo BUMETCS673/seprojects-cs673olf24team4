@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import team4.teambuilder.h2.User;
-import team4.teambuilder.h2.UserRepository;
+
+import team4.teambuilder.model.User;
+import team4.teambuilder.repository.UserRepository;
 
 import java.util.Arrays;
 

@@ -3,10 +3,10 @@ package team4.teambuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import team4.teambuilder.h2.User;
-import team4.teambuilder.h2.UserRepository;
-import team4.teambuilder.h2.TeamAssignmentService;
-import team4.teambuilder.h2.UserService;
+import team4.teambuilder.model.User;
+import team4.teambuilder.repository.UserRepository;
+import team4.teambuilder.service.TeamAssignmentService;
+import team4.teambuilder.service.UserService;
 
 import java.util.Arrays;
 import java.util.List;
