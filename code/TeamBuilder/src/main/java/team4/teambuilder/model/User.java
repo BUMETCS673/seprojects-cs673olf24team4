@@ -2,6 +2,7 @@ package team4.teambuilder.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -9,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private String name;
     private String email;
     private String role;
@@ -42,11 +43,11 @@ public class User {
         this.group = group;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -83,3 +84,4 @@ public class User {
     }
 
 }
+

@@ -2,11 +2,13 @@ package team4.teambuilder.controller;
 
 import team4.teambuilder.model.User;
 import team4.teambuilder.model.Group;
+import team4.teambuilder.service.AdminService;
 import team4.teambuilder.service.GroupService;
 import team4.teambuilder.service.TeamAssignmentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -40,10 +42,18 @@ public class GroupController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Autowired
+    private AdminService adminService;
+
     @PostMapping("/{groupId}/assign-teams")
-    public ResponseEntity<List<List<User>>> assignTeams(
+    public ResponseEntity<?> assignTeams(
             @PathVariable Long groupId, 
-            @RequestParam int numberOfTeams) {
+            @RequestParam int numberOfTeams,
+            @RequestParam String adminUsername,
+            @RequestParam String adminPassword) {
+        if (!adminService.authenticateAdmin(adminUsername, adminPassword)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Admin authentication failed");
+        }
         List<List<User>> teams = teamAssignmentService.assignTeams(groupId, numberOfTeams);
         return ResponseEntity.ok(teams);
     }
