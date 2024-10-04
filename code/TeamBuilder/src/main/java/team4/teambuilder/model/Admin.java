@@ -19,7 +19,6 @@ public class Admin {
         this.password = password;
     }
 
-    // Getters and setters
     public UUID getId() {
         return id;
     }

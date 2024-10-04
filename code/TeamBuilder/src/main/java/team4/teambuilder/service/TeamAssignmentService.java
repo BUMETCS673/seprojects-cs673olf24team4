@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service for team assignment operations.
+ */
 @Service
 public class TeamAssignmentService {
 
@@ -20,6 +23,13 @@ public class TeamAssignmentService {
     @Autowired
     private GroupRepository groupRepository;
 
+    /**
+     * Assigns teams to a group.
+     *
+     * @param groupId the ID of the group to assign teams to
+     * @param numberOfTeams the number of teams to assign
+     * @return the assigned teams
+     */
     public List<List<User>> assignTeams(Long groupId, int numberOfTeams) {
         List<User> groupUsers = userRepository.findByGroupId(groupId);
         List<List<User>> teams = new ArrayList<>();
