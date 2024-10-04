@@ -2,16 +2,24 @@ package team4.teambuilder.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private String name;
     private String email;
     private String role;
+
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    @JsonBackReference
+    private Group group;
 
     @ElementCollection
     @CollectionTable(name = "user_answers", joinColumns = @JoinColumn(name = "user_id"))
@@ -27,11 +35,19 @@ public class User {
         this.answers = answers;
     }
 
-    public Long getId() {
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -68,3 +84,4 @@ public class User {
     }
 
 }
+
