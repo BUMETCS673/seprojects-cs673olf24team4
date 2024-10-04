@@ -6,6 +6,20 @@ http://localhost:8085/api
 ## Docker URL
 http://localhost:8080/api
 
+## User Object
+
+Example User object:
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "name": "First Last",
+  "email": "f.d@example.com",
+  "role": "Developer",
+  "answers": ["Java", "Spring", "Team Player"],
+  "groupId": 1
+}
+```
+
 ## User Management
 
 ### Get All Users
@@ -32,7 +46,7 @@ Endpoint: POST /users
 Description: Creates a new user.
 
 Request Body:
-```
+```json
  {
     "name": "New User",
     "email": "newuser@example.com",
@@ -77,7 +91,7 @@ Endpoint: POST /groups
 Description: Creates a new group.
 
 Request Body:
-```
+```json
  {
     "name": "New Group"
   }
@@ -138,7 +152,7 @@ Endpoint: POST /users/{userId}/submit-answers
 Description: Submits or updates a user's answers.
 
 Request Body:
-```
+```json
   {
     "answers": ["Leader", "Work under pressure", "Frontend development"]
   }
