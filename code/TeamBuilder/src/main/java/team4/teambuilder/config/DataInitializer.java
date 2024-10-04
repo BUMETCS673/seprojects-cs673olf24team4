@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 import team4.teambuilder.model.User;
 import team4.teambuilder.repository.UserRepository;
+import team4.teambuilder.model.Admin;
+import team4.teambuilder.repository.AdminRepository;
 
 import java.util.Arrays;
 
@@ -14,6 +16,9 @@ import java.util.Arrays;
 public class DataInitializer {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AdminRepository adminRepository;
 
     @Bean
     public CommandLineRunner initializeData() {
@@ -28,6 +33,10 @@ public class DataInitializer {
                     Arrays.asList("Coordinator", "Proactive planning", "Diplomatic communication", "Project management", "Mix of both"));
 
             userRepository.saveAll(Arrays.asList(user1, user2, user3));
+
+            // initial admin account
+            Admin admin = new Admin("admin", "password123");
+            adminRepository.save(admin);
         };
     }
 }
