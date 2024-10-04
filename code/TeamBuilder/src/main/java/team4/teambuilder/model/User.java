@@ -3,6 +3,8 @@ package team4.teambuilder.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -12,6 +14,11 @@ public class User {
     private String name;
     private String email;
     private String role;
+
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    @JsonBackReference
+    private Group group;
 
     @ElementCollection
     @CollectionTable(name = "user_answers", joinColumns = @JoinColumn(name = "user_id"))
@@ -25,6 +32,14 @@ public class User {
         this.email = email;
         this.role = role;
         this.answers = answers;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public Long getId() {

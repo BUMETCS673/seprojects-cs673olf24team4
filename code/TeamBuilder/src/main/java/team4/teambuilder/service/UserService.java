@@ -1,7 +1,9 @@
 package team4.teambuilder.service;
 
 import team4.teambuilder.model.User;
+import team4.teambuilder.model.Group;
 import team4.teambuilder.repository.UserRepository;
+import team4.teambuilder.repository.GroupRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -46,6 +51,22 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         user.setAnswers(answers);
         return userRepository.save(user);
+    }
+
+    public User assignUserToGroup(Long userId, Long groupId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new RuntimeException("Group not found with id: " + groupId));
+        
+        user.setGroup(group);
+        return userRepository.save(user);
+    }
+
+    public List<User> getUsersByGroup(Long groupId) {
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new RuntimeException("Group not found with id: " + groupId));
+        return group.getUsers();
     }
 }
 

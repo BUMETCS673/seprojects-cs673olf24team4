@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import team4.teambuilder.model.User;
+import team4.teambuilder.model.Group;
 import team4.teambuilder.repository.UserRepository;
+import team4.teambuilder.repository.GroupRepository;
 import team4.teambuilder.service.TeamAssignmentService;
 import team4.teambuilder.service.UserService;
 
@@ -19,6 +21,8 @@ class TeamBuilderApplicationTests {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private GroupRepository groupRepository;
     @Autowired
     private TeamAssignmentService teamAssignmentService;
 
@@ -69,13 +73,24 @@ class TeamBuilderApplicationTests {
 
     @Test
     public void testTeamAssignment() {
-        long initialCount = userRepository.count();
-        List<List<User>> teams = teamAssignmentService.assignTeams(3);
+        // Create a test group
+        Group testGroup = new Group("Test Group");
+        testGroup = groupRepository.save(testGroup);
+
+        // Assign users to the test group
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            user.setGroup(testGroup);
+            userRepository.save(user);
+        }
+
+        long groupUserCount = userRepository.findByGroupId(testGroup.getId()).size();
+        List<List<User>> teams = teamAssignmentService.assignTeams(testGroup.getId(), 3);
         assertEquals(3, teams.size());
         assertTrue(teams.get(0).size() >= 1);
         assertTrue(teams.get(1).size() >= 1);
         assertTrue(teams.get(2).size() >= 1);
-        assertTrue(teams.get(0).size() + teams.get(1).size() + teams.get(2).size() == initialCount);
+        assertEquals(groupUserCount, teams.get(0).size() + teams.get(1).size() + teams.get(2).size());
     }
 
 }

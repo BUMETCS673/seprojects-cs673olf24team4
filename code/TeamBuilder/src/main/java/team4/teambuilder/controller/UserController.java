@@ -18,12 +18,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private TeamAssignmentService teamAssignmentService;
-
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
@@ -53,10 +51,10 @@ public class UserController {
         return ResponseEntity.ok(savedUser);
     }
 
-    @GetMapping("/teams")
-    public ResponseEntity<List<List<User>>> getTeamAssignments(@RequestParam int numberOfTeams) {
-        List<List<User>> teams = teamAssignmentService.assignTeams(numberOfTeams);
-        return ResponseEntity.ok(teams);
+    @PostMapping("/{userId}/assign-group/{groupId}")
+    public ResponseEntity<User> assignUserToGroup(@PathVariable Long userId, @PathVariable Long groupId) {
+        User updatedUser = userService.assignUserToGroup(userId, groupId);
+        return ResponseEntity.ok(updatedUser);
     }
 }
 
