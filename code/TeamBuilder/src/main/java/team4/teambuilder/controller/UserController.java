@@ -2,7 +2,6 @@ package team4.teambuilder.controller;
 
 import team4.teambuilder.model.User;
 import team4.teambuilder.service.UserService;
-import team4.teambuilder.service.TeamAssignmentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Optional<User> getUserById(@PathVariable Long id) {
+    public Optional<User> getUserById(@PathVariable UUID id) {
         return userService.getUserById(id);
     }
 
@@ -35,12 +35,12 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public void deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+    public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody User userDetails) {
         User updatedUser = userService.updateUser(id, userDetails);
         return ResponseEntity.ok(updatedUser);
     }
@@ -52,9 +52,8 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/assign-group/{groupId}")
-    public ResponseEntity<User> assignUserToGroup(@PathVariable Long userId, @PathVariable Long groupId) {
+    public ResponseEntity<User> assignUserToGroup(@PathVariable UUID userId, @PathVariable Long groupId) {
         User updatedUser = userService.assignUserToGroup(userId, groupId);
         return ResponseEntity.ok(updatedUser);
     }
 }
-
