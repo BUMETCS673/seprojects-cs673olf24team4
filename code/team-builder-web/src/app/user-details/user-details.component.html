@@ -36,8 +36,23 @@
                         <mat-card-title>Skills & Experience</mat-card-title>
                     </mat-card-header>
                     <mat-card-content>
-                        <!-- TODO: add relevant form inputs -->
-                    </mat-card-content>
+                        <mat-form-field [appearance]="'outline'">
+                            <mat-chip-grid #chipGrid formControlName="selectedSkills">
+                                <mat-chip-row *ngFor="let skill of selectedSkills!.value" [removable]="true" (removed)="removeSkill(skill)">
+                                    {{ skill }}
+                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip-row>
+                                <input placeholder="Add Programming languages, frameworks" [matAutocomplete]="auto" formControlName="skillInput"
+                                    [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                    (matChipInputTokenEnd)="addSkill($event)"/>
+                            </mat-chip-grid>
+                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectSkill($event)">
+                                <mat-option *ngFor="let skill of filteredSkills | async" [value]="skill">
+                                    {{ skill }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        </mat-card-content>
                 </mat-card>
     
                 <!-- Preferences Column -->
@@ -46,7 +61,14 @@
                         <mat-card-title>Preferences</mat-card-title>
                     </mat-card-header>
                     <mat-card-content>
-                        <!-- TODO: add relevant form inputs -->
+                        <mat-form-field appearance="outline">
+                            <mat-label>Preferred Role</mat-label>
+                            <mat-select formControlName="preferredRole">
+                              <mat-option *ngFor="let role of predefinedRoles" [value]="role">
+                                {{ role }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>                          
                     </mat-card-content>
                 </mat-card>
             </div>
