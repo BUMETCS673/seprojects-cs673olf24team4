@@ -20,7 +20,7 @@ mvn spring-boot:run
 ```
 Step 3: Access the Application
 ```
-http://localhost:8080
+http://localhost:8085
 ```
 
 ## Running the Application with Docker
@@ -30,11 +30,11 @@ docker build -t teambuilder .
 ```
 Step 2: Run the Application
 ```
-docker run -p 8080:8080 teambuilder
+docker run -p 8085:8085 teambuilder
 ```
 Step 3: Access the Application
 ```
-http://localhost:8080
+http://localhost:8085
 ```
 
 ## Running the Test with Docker separately

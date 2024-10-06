@@ -1,9 +1,8 @@
 package team4.teambuilder.service;
 
 import team4.teambuilder.model.User;
-import team4.teambuilder.model.Group;
 import team4.teambuilder.repository.UserRepository;
-import team4.teambuilder.repository.GroupRepository;
+import team4.teambuilder.util.KeywordWeights;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Comparator;
+import java.util.Map;
 
 /**
  * Service for team assignment operations.
+ * Algorithm:
+ * 1. Group users by role
+ * 2. Sort roles by the number of users in each role (descending)
+ * 3. Assign users to teams, prioritizes role distribution by processing roles in order of their frequency.
  */
 @Service
 public class TeamAssignmentService {
@@ -23,13 +27,10 @@ public class TeamAssignmentService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private GroupRepository groupRepository;
-
     /**
      * Assigns teams to a group.
      *
-     * @param groupId the ID of the group to assign teams to
+     * @param groupId       the ID of the group to assign teams to
      * @param numberOfTeams the number of teams to assign
      * @return the assigned teams
      */
@@ -43,29 +44,58 @@ public class TeamAssignmentService {
             teams.add(new ArrayList<>());
         }
 
-        // Calculate scores and sort users
-        List<User> sortedUsers = groupUsers.stream()
-            .sorted(Comparator.comparingDouble(this::calculateUserScore).reversed())
-            .collect(Collectors.toList());
+        // Group users by role
+        Map<String, List<User>> usersByRole = groupUsers.stream()
+                .collect(Collectors.groupingBy(User::getRole));
 
-        // Assign users to teams using round-robin approach
-        for (int i = 0; i < sortedUsers.size(); i++) {
-            teams.get(i % numberOfTeams).add(sortedUsers.get(i));
+        // Sort roles by the number of users in each role (descending)
+        List<String> sortedRoles = usersByRole.entrySet().stream()
+                .sorted((e1, e2) -> Integer.compare(e2.getValue().size(), e1.getValue().size()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        // Assign users to teams, prioritizes role
+        int teamIndex = 0;
+        boolean ascending = true;
+        for (String role : sortedRoles) {
+            List<User> usersInRole = usersByRole.get(role);
+            usersInRole.sort(Comparator.comparingInt(this::calculateUserScore).reversed());
+
+            for (User user : usersInRole) {
+                teams.get(teamIndex).add(user);
+
+                if (ascending) {
+                    teamIndex++;
+                    if (teamIndex == numberOfTeams - 1) {
+                        ascending = false;
+                    }
+                } else {
+                    teamIndex--;
+                    if (teamIndex == 0) {
+                        ascending = true;
+                    }
+                }
+            }
         }
-
 
         return teams;
     }
 
-    private double calculateUserScore(User user) {
+    private int calculateUserScore(User user) {
         List<String> answers = user.getAnswers();
         if (answers == null || answers.isEmpty()) {
-            return 0.0;
+            return 0;
         }
 
-        // Simple scoring: sum of answer lengths
         return answers.stream()
-            .mapToDouble(answer -> answer != null ? answer.length() : 0)
-            .sum();
+                .mapToInt(answer -> {
+                    if (answer == null) return 0;
+                    String lowerCaseAnswer = answer.toLowerCase();
+                    return KeywordWeights.WEIGHTS.entrySet().stream()
+                            .filter(entry -> lowerCaseAnswer.contains(entry.getKey()))
+                            .mapToInt(Map.Entry::getValue)
+                            .sum();
+                })
+                .sum();
     }
 }
