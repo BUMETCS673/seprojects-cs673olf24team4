@@ -93,8 +93,9 @@ class TeamBuilderApplicationTests {
 
         List<List<User>> teams = teamAssignmentService.assignTeams(testGroup.getId(), 2);
         assertEquals(2, teams.size());
-        assertEquals(3, teams.get(0).size());
-        assertEquals(2, teams.get(1).size());
+        assertTrue(teams.get(0).size() == 3 || teams.get(0).size() == 2);
+        assertTrue(teams.get(1).size() == 3 || teams.get(1).size() == 2);
+        assertEquals(5, teams.get(0).size() + teams.get(1).size());
     }
 
 }

@@ -7,9 +7,12 @@ import team4.teambuilder.repository.GroupRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Comparator;
 
 /**
  * Service for team assignment operations.
@@ -30,6 +33,7 @@ public class TeamAssignmentService {
      * @param numberOfTeams the number of teams to assign
      * @return the assigned teams
      */
+    @Transactional
     public List<List<User>> assignTeams(Long groupId, int numberOfTeams) {
         List<User> groupUsers = userRepository.findByGroupId(groupId);
         List<List<User>> teams = new ArrayList<>();
@@ -39,11 +43,29 @@ public class TeamAssignmentService {
             teams.add(new ArrayList<>());
         }
 
-        // Simple logic to assign teams
-        for (int i = 0; i < groupUsers.size(); i++) {
-            teams.get(i % numberOfTeams).add(groupUsers.get(i));
+        // Calculate scores and sort users
+        List<User> sortedUsers = groupUsers.stream()
+            .sorted(Comparator.comparingDouble(this::calculateUserScore).reversed())
+            .collect(Collectors.toList());
+
+        // Assign users to teams using round-robin approach
+        for (int i = 0; i < sortedUsers.size(); i++) {
+            teams.get(i % numberOfTeams).add(sortedUsers.get(i));
         }
 
+
         return teams;
+    }
+
+    private double calculateUserScore(User user) {
+        List<String> answers = user.getAnswers();
+        if (answers == null || answers.isEmpty()) {
+            return 0.0;
+        }
+
+        // Simple scoring: sum of answer lengths
+        return answers.stream()
+            .mapToDouble(answer -> answer != null ? answer.length() : 0)
+            .sum();
     }
 }
