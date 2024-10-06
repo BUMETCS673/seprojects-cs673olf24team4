@@ -16,7 +16,7 @@ export class UserService {
     return this.http.get<User[]>(`${this.baseUrl}`);
   }
 
-  getUserById(id: number): Observable<User> {
+  getUserById(id: string): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/${id}`);
   }
 
@@ -28,7 +28,7 @@ export class UserService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
   
-  updateUser(id: number, user: User): Observable<User> {
+  updateUser(id: string, user: User): Observable<User> {
     return this.http.put<User>(`${this.baseUrl}/${id}`, user);
   }
 

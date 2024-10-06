@@ -2,15 +2,15 @@ export class User {
     id: string;
     name: string;
     email: string;
-    degree: string;
-    concentration?: string;
+    role: string;
+    answers: string[];
   
     constructor(data: Partial<User>) {
-      this.id = data.id || '';
+      this.id = data.id || '',
       this.name = data.name || '';
       this.email = data.email || '';
-      this.degree = data.degree || '';
-      this.concentration = data.concentration || '';
+      this.role = data.role || '';
+      this.answers = data.answers || [];
     }
 
   }

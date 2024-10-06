@@ -52,11 +52,6 @@ Now you can access the application at:
 http://localhost:4000
 ```
 
-
-## Run locally
-
-Run `ng serve --open` to run the application locally
-
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
