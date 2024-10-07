@@ -63,7 +63,7 @@ export class UserDetailsComponent {
       email: ['', [Validators.required, Validators.email]],
       degree: [''],
       concentration: [''],
-      selectedSkills: [[], Validators.required],
+      selectedSkills: [[]],
       skillInput: [''],
       preferredRole: ['', Validators.required]
     });

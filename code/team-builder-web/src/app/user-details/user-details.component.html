@@ -37,12 +37,13 @@
                     </mat-card-header>
                     <mat-card-content>
                         <mat-form-field [appearance]="'outline'">
+                            <mat-label>Programming Languages & Frameworks</mat-label>
                             <mat-chip-grid #chipGrid formControlName="selectedSkills">
                                 <mat-chip-row *ngFor="let skill of selectedSkills!.value" [removable]="true" (removed)="removeSkill(skill)">
                                     {{ skill }}
                                     <mat-icon matChipRemove>cancel</mat-icon>
                                 </mat-chip-row>
-                                <input placeholder="Add Programming languages, frameworks" [matAutocomplete]="auto" formControlName="skillInput"
+                                <input placeholder="Select from list or type to add a new one..." [matAutocomplete]="auto" formControlName="skillInput"
                                     [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                     (matChipInputTokenEnd)="addSkill($event)"/>
                             </mat-chip-grid>
