@@ -114,11 +114,6 @@ class TeamBuilderApplicationTests {
         int expectedMinTeamSize = totalUsers / 2;
         int expectedMaxTeamSize = (totalUsers + 1) / 2;
 
-        System.out.println("Total users: " + totalUsers);
-        System.out.println("Expected min team size: " + expectedMinTeamSize);
-        System.out.println("Expected max team size: " + expectedMaxTeamSize);
-        System.out.println("Actual team sizes: " + teams.get(0).size() + ", " + teams.get(1).size());
-
         assertTrue(teams.get(0).size() >= expectedMinTeamSize && teams.get(0).size() <= expectedMaxTeamSize,
                 "Team 1 size should be between " + expectedMinTeamSize + " and " + expectedMaxTeamSize);
         assertTrue(teams.get(1).size() >= expectedMinTeamSize && teams.get(1).size() <= expectedMaxTeamSize,

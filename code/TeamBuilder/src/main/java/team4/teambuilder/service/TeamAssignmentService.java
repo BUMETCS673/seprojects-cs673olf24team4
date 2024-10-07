@@ -18,7 +18,7 @@ import java.util.Map;
  * Service for team assignment operations.
  * Algorithm:
  * 1. Group users by role
- * 2. Sort roles by the number of users in each role (descending)
+ * 2. Sort each role by the user's score (descending)
  * 3. Assign users to teams, prioritizes role distribution by processing roles in order of their frequency.
  */
 @Service
@@ -63,7 +63,7 @@ public class TeamAssignmentService {
 
             for (User user : usersInRole) {
                 teams.get(teamIndex).add(user);
-
+                // Order ex. 0, 1, 2, 3, 4, 4, 3, 2, 1, 0
                 if (ascending) {
                     teamIndex++;
                     if (teamIndex == numberOfTeams - 1) {
@@ -81,6 +81,12 @@ public class TeamAssignmentService {
         return teams;
     }
 
+    /**
+     * Calculates the user's score based on their answers.
+     *
+     * @param user the user to calculate the score for
+     * @return the user's score
+     */
     private int calculateUserScore(User user) {
         List<String> answers = user.getAnswers();
         if (answers == null || answers.isEmpty()) {
