@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { provideToastr } from 'ngx-toastr';
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
@@ -30,7 +31,8 @@ describe('UserDetailsComponent', () => {
       ],
       providers: [
         provideHttpClient(),
-        provideHttpClientTesting()
+        provideHttpClientTesting(),
+        provideToastr(),
       ]
     })
     .compileComponents();
@@ -55,6 +57,7 @@ describe('UserDetailsComponent', () => {
     component.userForm.controls['name'].setValue('Johnny Bravo');
     component.userForm.controls['email'].setValue('johnny.bravo@cn.com');
     component.userForm.controls['degree'].setValue('Master of Fine Arts');
+    component.userForm.controls['preferredRole'].setValue('Team Leader');
     fixture.detectChanges();
 
     const saveButton = fixture.debugElement.query(By.css('button[type="submit"]')).nativeElement;
