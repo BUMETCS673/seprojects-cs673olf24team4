@@ -3,6 +3,8 @@ package team4.teambuilder.service;
 import team4.teambuilder.model.User;
 import team4.teambuilder.repository.UserRepository;
 import team4.teambuilder.util.KeywordWeights;
+import team4.teambuilder.observer.SimpleObserver;
+import team4.teambuilder.observer.SimpleSubject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,10 +40,12 @@ public class TeamAssignmentService {
     public List<List<User>> assignTeams(Long groupId, int numberOfTeams) {
         List<User> groupUsers = userRepository.findByGroupId(groupId);
         List<List<User>> teams = new ArrayList<>();
-
+        List<SimpleSubject> subjects = new ArrayList<SimpleSubject>();
         // Initialize teams
         for (int i = 0; i < numberOfTeams; i++) {
             teams.add(new ArrayList<>());
+            subjects.add(new SimpleSubject());
+            //Creates a subject for each team
         }
 
         // Group users by role
@@ -54,6 +58,8 @@ public class TeamAssignmentService {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
+        List<SimpleObserver> observerList = new ArrayList<SimpleObserver>();
+
         // Assign users to teams, prioritizes role
         int teamIndex = 0;
         boolean ascending = true;
@@ -64,6 +70,8 @@ public class TeamAssignmentService {
             for (User user : usersInRole) {
                 teams.get(teamIndex).add(user);
                 // Order ex. 0, 1, 2, 3, 4, 4, 3, 2, 1, 0
+                observerList.add(new SimpleObserver(subjects.get(teamIndex), user));
+                //Adds user as an observer for current team
                 if (ascending) {
                     teamIndex++;
                     if (teamIndex == numberOfTeams - 1) {
@@ -77,7 +85,10 @@ public class TeamAssignmentService {
                 }
             }
         }
-
+        for(int i = 0; i < numberOfTeams; i++) {
+            subjects.get(i).setValue("Added to team " + (i+1));
+            //updates subject value to alert observers they have been added to a team
+        }
         return teams;
     }
 
