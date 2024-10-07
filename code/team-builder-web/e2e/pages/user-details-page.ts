@@ -8,6 +8,7 @@ export class UserDetailsPage {
     readonly skillsInput: Locator;
     readonly preferredRoleInput: Locator;
     readonly saveButton: Locator;
+    readonly alert: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -17,6 +18,7 @@ export class UserDetailsPage {
         this.skillsInput = page.getByLabel('Programming Languages & Frameworks');
         this.preferredRoleInput = page.getByLabel('Preferred Role');
         this.saveButton = page.getByRole('button', {name: 'Save'});
+        this.alert = page.getByRole('alert');
     }
 
     async goto() {
@@ -39,11 +41,19 @@ export class UserDetailsPage {
             await this.skillsInput.first().press('Enter')
         }
         await this.preferredRoleInput.click();
-        await this.page.getByRole('option', {name: preferredRole}).click();
+        await this.preferredRoleInput.getByRole('option', {name: preferredRole}).click();
     }
 
     async expectSaveButtonToBeEnabled() {
         await expect(this.saveButton).toBeEnabled();
+    }
+
+    async saveUser() {
+        await this.saveButton.click();
+    }
+
+    async expectSuccessNotification() {
+        await expect(this.alert).toContainText('User saved successfully!');
     }
     
 }

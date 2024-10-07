@@ -8,4 +8,6 @@ test('should fill user details and enable save button', async ({ page }) => {
   await userDetailsPage.expectSaveButtonToBeDisabled();
   await userDetailsPage.addUserDetails('Test User', 'test.user@tb.com', ['Python', 'Flask'], 'Team Leader'); 
   await userDetailsPage.expectSaveButtonToBeEnabled();
+  await userDetailsPage.saveUser();
+  await userDetailsPage.expectSuccessNotification();
 });
