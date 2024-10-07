@@ -31,13 +31,13 @@ describe('SidenavComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have three navigation items - Home, Add User, View/Edit Users', () => {
+  it('should have three navigation items - Home, Add User, View Users', () => {
     const navListItems = fixture.debugElement.queryAll(By.css('.sidenav-list-item'));
 
     expect(navListItems.length).toBe(3);
     expect(navListItems[0].query(By.css('span:nth-child(2)')).nativeElement.textContent.trim()).toBe('Home');
     expect(navListItems[1].query(By.css('span:nth-child(2)')).nativeElement.textContent.trim()).toBe('Add User');
-    expect(navListItems[2].query(By.css('span:nth-child(2)')).nativeElement.textContent.trim()).toBe('View/Edit Users');
+    expect(navListItems[2].query(By.css('span:nth-child(2)')).nativeElement.textContent.trim()).toBe('View Users');
   });
 
 });
