@@ -31,6 +31,14 @@ The primary motivation behind TeamBuilder is to streamline the team formation pr
 
 ### Running the application locally
 
+frontend
+
+```shell
+ng serve
+```
+
+backend
+
 ```shell
 mvn spring-boot:run
 ```
