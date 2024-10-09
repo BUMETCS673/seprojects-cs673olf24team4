@@ -177,3 +177,21 @@ All endpoints may return the following error responses:
 
 500 Internal Server Error: Unexpected server error
 
+## Team Management
+
+### Get Teams by Group ID
+
+Endpoint: GET /groups/{groupId}/teams
+
+Description: Retrieves all teams assigned to a specific group.
+
+Response: Array of Team objects
+
+```json
+{
+  "id"
+  "teamNumber"
+  "group"
+  "members"
+}
+```

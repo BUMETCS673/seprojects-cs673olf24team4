@@ -166,14 +166,62 @@ public class ControllerTest {
 
         Group createdGroup = objectMapper.readValue(response, Group.class);
 
+        // Create some users and assign them to the group
+        User user1 = new User("Alice", "alice@example.com", "Developer", Arrays.asList("Java", "Spring"));
+        User user2 = new User("Bob", "bob@example.com", "Designer", Arrays.asList("UI/UX", "Figma"));
+        user1.setGroup(createdGroup);
+        user2.setGroup(createdGroup);
+        mockMvc.perform(post("/api/users").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(user1))).andExpect(status().isOk());
+        mockMvc.perform(post("/api/users").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(user2))).andExpect(status().isOk());
+
         // Assign teams
         mockMvc.perform(post("/api/groups/" + createdGroup.getId() + "/assign-teams")
                 .param("numberOfTeams", "2")
                 .param("adminUsername", "admin")
                 .param("adminPassword", "password123"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray());
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].teamNumber").exists())
+                .andExpect(jsonPath("$[0].members").isArray())
+                .andExpect(jsonPath("$[1].teamNumber").exists())
+                .andExpect(jsonPath("$[1].members").isArray());
     }
     
+    @Test
+    public void testGetTeamsByGroupId() throws Exception {
+        // First, create a group
+        Group group = new Group("Test Group");
+        String groupResponse = mockMvc.perform(post("/api/groups")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(group)))
+            .andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsString();
+
+        Group createdGroup = objectMapper.readValue(groupResponse, Group.class);
+
+        // Create some users and assign them to the group
+        User user1 = new User("Alice", "alice@example.com", "Developer", Arrays.asList("Java", "Spring"));
+        User user2 = new User("Bob", "bob@example.com", "Designer", Arrays.asList("UI/UX", "Figma"));
+        user1.setGroup(createdGroup);
+        user2.setGroup(createdGroup);
+        mockMvc.perform(post("/api/users").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(user1))).andExpect(status().isOk());
+        mockMvc.perform(post("/api/users").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(user2))).andExpect(status().isOk());
+
+        // Assign teams
+        mockMvc.perform(post("/api/groups/" + createdGroup.getId() + "/assign-teams")
+                .param("numberOfTeams", "2")
+                .param("adminUsername", "admin")
+                .param("adminPassword", "password123"))
+                .andExpect(status().isOk());
+
+        // Get teams for the group
+        mockMvc.perform(get("/api/groups/" + createdGroup.getId() + "/teams"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].teamNumber").exists())
+                .andExpect(jsonPath("$[0].members").isArray())
+                .andExpect(jsonPath("$[1].teamNumber").exists())
+                .andExpect(jsonPath("$[1].members").isArray());
+    }
 
 }
