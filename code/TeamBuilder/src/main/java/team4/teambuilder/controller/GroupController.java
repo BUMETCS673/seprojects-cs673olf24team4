@@ -2,8 +2,10 @@ package team4.teambuilder.controller;
 
 import team4.teambuilder.model.User;
 import team4.teambuilder.model.Group;
+import team4.teambuilder.model.Team;
 import team4.teambuilder.service.AdminService;
 import team4.teambuilder.service.GroupService;
+import team4.teambuilder.service.TeamService;
 import team4.teambuilder.service.TeamAssignmentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,12 @@ public class GroupController {
      */
     @Autowired
     private GroupService groupService;
+
+    /**
+     * Service for team operations.
+     */
+    @Autowired
+    private TeamService teamService;
 
     /**
      * Service for team assignment operations.
@@ -93,9 +101,13 @@ public class GroupController {
         if (!adminService.authenticateAdmin(adminUsername, adminPassword)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Admin authentication failed");
         }
-        List<List<User>> teams = teamAssignmentService.assignTeams(groupId, numberOfTeams);
+        List<Team> teams = teamAssignmentService.assignTeams(groupId, numberOfTeams);
         return ResponseEntity.ok(teams);
     }
 
-    
+    @GetMapping("/{groupId}/teams")
+    public ResponseEntity<List<Team>> getTeamsByGroupId(@PathVariable Long groupId) {
+        List<Team> teams = teamService.getTeamsByGroupId(groupId);
+        return ResponseEntity.ok(teams);
+    }
 }

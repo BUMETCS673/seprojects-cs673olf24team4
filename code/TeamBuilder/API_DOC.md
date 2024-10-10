@@ -4,7 +4,11 @@
 http://localhost:8085/api
 
 ## Docker URL
-http://localhost:8080/api
+http://localhost:8085/api
+
+## Admin Credentials
+Username: admin
+Password: password123
 
 ## User Object
 
@@ -27,6 +31,10 @@ Example User object:
 Endpoint: GET /users
 
 Description: Retrieves all users in the system.
+
+Request Parameters:
+- adminUsername: string (query parameter)
+- adminPassword: string (query parameter)
 
 Response: Array of User objects
 
@@ -62,6 +70,10 @@ Endpoint: PUT /users/{userId}
 
 Description: Updates an existing user.
 
+Request Parameters:
+- adminUsername: string (query parameter)
+- adminPassword: string (query parameter)
+
 Request Body: Same as Create User
 
 Response: Updated User object
@@ -71,6 +83,10 @@ Response: Updated User object
 Endpoint: DELETE /users/{userId}
 
 Description: Deletes a user from the system.
+
+Request Parameters:
+- adminUsername: string (query parameter)
+- adminPassword: string (query parameter)
 
 Response: 204 No Content
 
@@ -177,3 +193,21 @@ All endpoints may return the following error responses:
 
 500 Internal Server Error: Unexpected server error
 
+## Team Management
+
+### Get Teams by Group ID
+
+Endpoint: GET /groups/{groupId}/teams
+
+Description: Retrieves all teams assigned to a specific group.
+
+Response: Array of Team objects
+
+```json
+{
+  "id"
+  "teamNumber"
+  "group"
+  "members"
+}
+```

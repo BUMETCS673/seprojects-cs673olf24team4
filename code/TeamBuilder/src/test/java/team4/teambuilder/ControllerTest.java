@@ -25,6 +25,9 @@ public class ControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private static final String ADMIN_USERNAME = "admin";
+    private static final String ADMIN_PASSWORD = "password123";
+
     //UserAPI Test
 
     @Test
@@ -44,10 +47,20 @@ public class ControllerTest {
 
     @Test
     public void testGetAllUsers() throws Exception {
-        mockMvc.perform(get("/api/users"))
+        mockMvc.perform(get("/api/users")
+                .param("adminUsername", ADMIN_USERNAME)
+                .param("adminPassword", ADMIN_PASSWORD))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    public void testGetAllUsersUnauthorized() throws Exception {
+        mockMvc.perform(get("/api/users")
+                .param("adminUsername", "wronguser")
+                .param("adminPassword", "wrongpass"))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -87,7 +100,9 @@ public class ControllerTest {
 
         mockMvc.perform(put("/api/users/" + createdUser.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createdUser)))
+                .content(objectMapper.writeValueAsString(createdUser))
+                .param("adminUsername", ADMIN_USERNAME)
+                .param("adminPassword", ADMIN_PASSWORD))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Updated User"))
                 .andExpect(jsonPath("$.email").value("updated@example.com"));
@@ -106,8 +121,10 @@ public class ControllerTest {
         User createdUser = objectMapper.readValue(response, User.class);
 
         // Delete the user
-        mockMvc.perform(delete("/api/users/" + createdUser.getId()))
-                .andExpect(status().isOk());
+        mockMvc.perform(delete("/api/users/" + createdUser.getId())
+                .param("adminUsername", ADMIN_USERNAME)
+                .param("adminPassword", ADMIN_PASSWORD))
+                .andExpect(status().isNoContent());
 
         // Verify the user is deleted
         mockMvc.perform(get("/api/users/" + createdUser.getId()))
@@ -166,14 +183,62 @@ public class ControllerTest {
 
         Group createdGroup = objectMapper.readValue(response, Group.class);
 
+        // Create some users and assign them to the group
+        User user1 = new User("Alice", "alice@example.com", "Developer", Arrays.asList("Java", "Spring"));
+        User user2 = new User("Bob", "bob@example.com", "Designer", Arrays.asList("UI/UX", "Figma"));
+        user1.setGroup(createdGroup);
+        user2.setGroup(createdGroup);
+        mockMvc.perform(post("/api/users").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(user1))).andExpect(status().isOk());
+        mockMvc.perform(post("/api/users").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(user2))).andExpect(status().isOk());
+
         // Assign teams
         mockMvc.perform(post("/api/groups/" + createdGroup.getId() + "/assign-teams")
                 .param("numberOfTeams", "2")
                 .param("adminUsername", "admin")
                 .param("adminPassword", "password123"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray());
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].teamNumber").exists())
+                .andExpect(jsonPath("$[0].members").isArray())
+                .andExpect(jsonPath("$[1].teamNumber").exists())
+                .andExpect(jsonPath("$[1].members").isArray());
     }
     
+    @Test
+    public void testGetTeamsByGroupId() throws Exception {
+        // First, create a group
+        Group group = new Group("Test Group");
+        String groupResponse = mockMvc.perform(post("/api/groups")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(group)))
+            .andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsString();
+
+        Group createdGroup = objectMapper.readValue(groupResponse, Group.class);
+
+        // Create some users and assign them to the group
+        User user1 = new User("Alice", "alice@example.com", "Developer", Arrays.asList("Java", "Spring"));
+        User user2 = new User("Bob", "bob@example.com", "Designer", Arrays.asList("UI/UX", "Figma"));
+        user1.setGroup(createdGroup);
+        user2.setGroup(createdGroup);
+        mockMvc.perform(post("/api/users").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(user1))).andExpect(status().isOk());
+        mockMvc.perform(post("/api/users").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(user2))).andExpect(status().isOk());
+
+        // Assign teams
+        mockMvc.perform(post("/api/groups/" + createdGroup.getId() + "/assign-teams")
+                .param("numberOfTeams", "2")
+                .param("adminUsername", "admin")
+                .param("adminPassword", "password123"))
+                .andExpect(status().isOk());
+
+        // Get teams for the group
+        mockMvc.perform(get("/api/groups/" + createdGroup.getId() + "/teams"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].teamNumber").exists())
+                .andExpect(jsonPath("$[0].members").isArray())
+                .andExpect(jsonPath("$[1].teamNumber").exists())
+                .andExpect(jsonPath("$[1].members").isArray());
+    }
 
 }
