@@ -25,6 +25,9 @@ public class ControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private static final String ADMIN_USERNAME = "admin";
+    private static final String ADMIN_PASSWORD = "password123";
+
     //UserAPI Test
 
     @Test
@@ -44,10 +47,20 @@ public class ControllerTest {
 
     @Test
     public void testGetAllUsers() throws Exception {
-        mockMvc.perform(get("/api/users"))
+        mockMvc.perform(get("/api/users")
+                .param("adminUsername", ADMIN_USERNAME)
+                .param("adminPassword", ADMIN_PASSWORD))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    public void testGetAllUsersUnauthorized() throws Exception {
+        mockMvc.perform(get("/api/users")
+                .param("adminUsername", "wronguser")
+                .param("adminPassword", "wrongpass"))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -87,7 +100,9 @@ public class ControllerTest {
 
         mockMvc.perform(put("/api/users/" + createdUser.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createdUser)))
+                .content(objectMapper.writeValueAsString(createdUser))
+                .param("adminUsername", ADMIN_USERNAME)
+                .param("adminPassword", ADMIN_PASSWORD))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Updated User"))
                 .andExpect(jsonPath("$.email").value("updated@example.com"));
@@ -106,8 +121,10 @@ public class ControllerTest {
         User createdUser = objectMapper.readValue(response, User.class);
 
         // Delete the user
-        mockMvc.perform(delete("/api/users/" + createdUser.getId()))
-                .andExpect(status().isOk());
+        mockMvc.perform(delete("/api/users/" + createdUser.getId())
+                .param("adminUsername", ADMIN_USERNAME)
+                .param("adminPassword", ADMIN_PASSWORD))
+                .andExpect(status().isNoContent());
 
         // Verify the user is deleted
         mockMvc.perform(get("/api/users/" + createdUser.getId()))
