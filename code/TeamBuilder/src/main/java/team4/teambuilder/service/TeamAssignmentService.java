@@ -1,7 +1,11 @@
 package team4.teambuilder.service;
 
 import team4.teambuilder.model.User;
+import team4.teambuilder.model.Team;
+import team4.teambuilder.model.Group;
 import team4.teambuilder.repository.UserRepository;
+import team4.teambuilder.repository.GroupRepository;
+import team4.teambuilder.repository.TeamRepository;
 import team4.teambuilder.util.KeywordWeights;
 import team4.teambuilder.observer.SimpleObserver;
 import team4.teambuilder.observer.SimpleSubject;
@@ -29,6 +33,12 @@ public class TeamAssignmentService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private GroupRepository groupRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
+
     /**
      * Assigns teams to a group.
      *
@@ -37,7 +47,7 @@ public class TeamAssignmentService {
      * @return the assigned teams
      */
     @Transactional
-    public List<List<User>> assignTeams(Long groupId, int numberOfTeams) {
+    public List<Team> assignTeams(Long groupId, int numberOfTeams) {
         List<User> groupUsers = userRepository.findByGroupId(groupId);
         List<List<User>> teams = new ArrayList<>();
         List<SimpleSubject> subjects = new ArrayList<SimpleSubject>();
@@ -85,11 +95,29 @@ public class TeamAssignmentService {
                 }
             }
         }
+
         for(int i = 0; i < numberOfTeams; i++) {
             subjects.get(i).setValue("Added to team " + (i+1));
             //updates subject value to alert observers they have been added to a team
         }
-        return teams;
+
+        // Save the assigned teams
+        Group group = groupRepository.findById(groupId)
+            .orElseThrow(() -> new RuntimeException("Group not found with id: " + groupId));
+        
+        // Delete teams for this group if exist
+        teamRepository.deleteByGroupId(groupId);
+
+        List<Team> savedTeams = new ArrayList<>();
+        for (int i = 0; i < teams.size(); i++) {
+            Team team = new Team();
+            team.setGroup(group);
+            team.setTeamNumber(i + 1);
+            team.setMembers(teams.get(i));
+            savedTeams.add(teamRepository.save(team));
+        }
+
+        return savedTeams;
     }
 
     /**
