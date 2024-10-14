@@ -1,0 +1,16 @@
+<div class="home-page-container">
+    <mat-card class="home-card" appearance="outlined">
+        <mat-card-content>
+            @if(!authService.isLoggedIn()) {
+                <div class="login-button">
+                    <button mat-flat-button color="primary" (click)="openDialog()">Login as Admin</button>
+                </div>
+            }
+            @else {
+                <div class="login-button">
+                    <button mat-button>Logged in as Admin</button>
+                </div>
+            }
+        </mat-card-content>
+    </mat-card>
+</div>

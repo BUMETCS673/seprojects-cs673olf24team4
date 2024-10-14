@@ -1,0 +1,20 @@
+.home-page-container {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box; /*When using border-box, the width and height you set include the content, padding, and borders */
+    height: 100vh; /* Make the container fill the full height of the viewport */
+    padding: 20px;
+}
+
+.home-card {
+    flex: 1; /* Ensures the card stretches to fill the available height */
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Needed for absolute positioning inside the card */
+}
+
+.login-button {
+    position: absolute;
+    top: 20px; 
+    right: 20px;
+}
