@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminLoginDialogComponent } from '../admin-login-dialog/admin-login-dialog.component';
 import { AuthService } from '../service/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'home-page',
@@ -20,7 +21,15 @@ export class HomePageComponent {
   readonly dialog = inject(MatDialog);
   readonly authService = inject(AuthService);
 
-  constructor() {}
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['error'] === 'notAdmin') {
+        console.error('You must log in as admin to access that page.');
+      }
+    });
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AdminLoginDialogComponent, {

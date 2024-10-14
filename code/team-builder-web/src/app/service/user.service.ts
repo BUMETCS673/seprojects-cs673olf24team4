@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../model/user.model';
+import { AdminData } from '../admin-login-dialog/admin-login-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,12 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}`);
+  getAllUsers(adminData: AdminData): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl, { 
+      params: new HttpParams()
+      .set('adminUsername', adminData.username)
+      .set('adminPassword', adminData.password) 
+    });
   }
 
   getUserById(id: string): Observable<User> {
@@ -24,20 +29,28 @@ export class UserService {
     return this.http.post<User>(`${this.baseUrl}`, user);
   }
 
-  deleteUser(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  deleteUser(id: string, adminData: AdminData): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { 
+      params: new HttpParams()
+      .set('adminUsername', adminData.username)
+      .set('adminPassword', adminData.password) 
+    });
   }
   
-  updateUser(id: string, user: User): Observable<User> {
-    return this.http.put<User>(`${this.baseUrl}/${id}`, user);
+  updateUser(id: string, user: User, adminData: AdminData): Observable<User> {
+    return this.http.put<User>(`${this.baseUrl}/${id}`, user, { 
+      params: new HttpParams()
+      .set('adminUsername', adminData.username)
+      .set('adminPassword', adminData.password) 
+    });
   }
 
   submitAnswers(user: User): Observable<User> {
     return this.http.post<User>(`${this.baseUrl}/submit-answers`, user);
   }
   
-  getTeamAssignments(numberOfTeams: number): Observable<User[][]> {
-    return this.http.get<User[][]>(`${this.baseUrl}/teams?numberOfTeams=${numberOfTeams}`);
+  assignUserToGroup(userId: string, groupId: number): Observable<User> {
+    return this.http.post<User>(`${this.baseUrl}/${userId}/assign-group/${groupId}`, {});
   }
   
 }

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'sidenav',
@@ -17,5 +18,5 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   ]
 })
 export class SidenavComponent {
-
+  readonly authService = inject(AuthService);
 }
