@@ -33,10 +33,10 @@ import { GroupService } from '../service/group.service';
     MatAutocompleteModule,
     CommonModule
   ],
-  templateUrl: './group.component.html',
-  styleUrl: './group.component.scss'
+  templateUrl: './create-edit-group.component.html',
+  styleUrl: './create-edit-group.component.scss'
 })
-export class GroupComponent {
+export class CreateEditGroupComponent {
 
   groupForm: FormGroup;
   allUsers: User[] = [];

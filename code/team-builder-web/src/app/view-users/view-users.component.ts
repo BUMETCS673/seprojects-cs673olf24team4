@@ -80,7 +80,7 @@ export class ViewUsersComponent {
           this.users = data;
         },
         complete: () => { 
-          this.toastr.success('All users fetched successfully!')
+          // if needed
         },
         error: () => { 
           this.toastr.error('Unexpected error in getting all users'); 
