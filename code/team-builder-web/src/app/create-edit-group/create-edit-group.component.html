@@ -20,7 +20,7 @@
                     <mat-card-content>
                         <mat-form-field [appearance]="'outline'">
                             <mat-label>Select users</mat-label>
-                            <mat-select formControlName="selectedUsers" multiple>
+                            <mat-select formControlName="selectedUsers" multiple [compareWith]="compareUsers">
                                 <mat-option *ngFor="let user of allUsers" [value]="user">
                                   {{ user.name }}
                                 </mat-option>

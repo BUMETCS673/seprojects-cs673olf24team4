@@ -1,0 +1,32 @@
+<div class="group-container">
+    <div class="form-container">
+        <mat-card class="group-card" appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>Groups and users</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-accordion>
+                    <!-- Iterate through the groups and create an expansion panel for each group -->
+                    <mat-expansion-panel *ngFor="let group of groups">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>{{ group.name }}</mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <!-- List users within the group -->
+                        <mat-list>
+                            <mat-list-item *ngFor="let user of group.users">
+                                {{ user.name }}
+                            </mat-list-item>
+                        </mat-list>
+
+                        <!-- Button to edit selected group, form teams for the selected group -->
+                        <mat-action-row>
+                            <button mat-flat-button color="primary" (click)="editGroup(group)">Edit group</button>
+                            <button mat-flat-button color="primary" (click)="formTeams(group)">Form Teams</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

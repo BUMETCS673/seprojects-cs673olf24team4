@@ -76,7 +76,10 @@ export class CreateEditGroupComponent {
           this.allUsers = data;
         },
         complete: () => { 
-          // if needed
+          const id = this.route.snapshot.paramMap.get('id');
+          if (id && id.length > 0) {
+            this.loadGroupData(Number(id));
+          }
         },
         error: () => { 
           this.toastr.error('Unexpected error in getting all users'); 
@@ -96,15 +99,33 @@ export class CreateEditGroupComponent {
         users: this.selectedUsers?.value
       });
 
-      this.groupService.createGroup(group).subscribe({
-        complete: () => {
-          this.toastr.success('Group created successfully!');
-        },
-        error: () => {
-          this.toastr.error('Error creating group');
-        }
-      });
+      const id = this.route.snapshot.paramMap.get('id');
+      if (id && id.length > 0) {
+        this.toastr.warning('Update group - not yet implemented')
+      } else {
+        this.groupService.createGroup(group).subscribe({
+          complete: () => {
+            this.toastr.success('Group created successfully!');
+          },
+          error: () => {
+            this.toastr.error('Error creating group');
+          }
+        });
+      }
     }
+  }
+
+  loadGroupData(id: number) {
+    this.groupService.getGroupById(id).subscribe(group => {
+      this.groupForm.patchValue({
+        name: group.name,
+        selectedUsers: group.users
+      });
+    });
+  }
+
+  compareUsers(user1: User, user2: User): boolean {
+    return user1 && user2 ? user1.id === user2.id : user1 === user2;
   }
 
 

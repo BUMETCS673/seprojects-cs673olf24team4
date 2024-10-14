@@ -33,6 +33,14 @@
           </div>
         </a>
       }
+      @if (authService.isLoggedIn()) {
+        <a mat-list-item routerLink="/form-teams">
+          <div class="sidenav-list-item">
+            <span class="material-symbols-outlined">diversity_3</span>
+            <span>Form Teams</span>
+          </div>
+        </a>
+      }
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

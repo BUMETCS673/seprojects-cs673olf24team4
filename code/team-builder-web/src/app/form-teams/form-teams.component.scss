@@ -1,0 +1,27 @@
+.group-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box; /*When using border-box, the width and height you set include the content, padding, and borders */
+    height: 100vh;
+}
+
+.form-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-grow: 1;
+}
+
+.group-card {
+    flex: 1; /* Ensures the card stretches to fill the available height */
+    display: flex;
+    flex-direction: column;
+}
+
+.mat-mdc-card-header {
+    padding: 16px 16px;
+}
