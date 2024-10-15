@@ -1,6 +1,10 @@
 # TeamBuilder
 [![Report Issue on Jira](https://img.shields.io/badge/Report%20Issues-Jira-0052CC?style=flat&logo=jira-software)](https://bu-cs673olf24-team4.atlassian.net/jira/software/projects/SCRUM/issues)
 
+The backend server will spin down with inactivity, which can delay requests by 50 seconds or more.
+
+Use this link https://seprojects-cs673olf24team4.onrender.com/ to activate.
+
 TeamBuilder is a team assignment tool to help create teams based on a few simple, but important questions that users will answer. The motivation and purpose to create this tool is to make a team where collaboration, inclusivity, efficiency, and flexibility are emphasized to help users become more productive and engaging, improving overall team performance. The potential users are any group of people who want to form separate teams. The application will work as so: the user will get on the website, they will answer a few questions, and they will be placed into a team according to their answers and the answers of others.
 
 ## Overview
