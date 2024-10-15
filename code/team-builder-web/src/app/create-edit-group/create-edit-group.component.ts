@@ -51,7 +51,7 @@ export class CreateEditGroupComponent {
   ) {
     this.groupForm = this.fb.group({
       name: ['', Validators.required],
-      selectedUsers: [[], Validators.required]
+      selectedUsers: [{ value: [], disabled: true }]
     });
   }
 
@@ -106,6 +106,7 @@ export class CreateEditGroupComponent {
         this.groupService.createGroup(group).subscribe({
           complete: () => {
             this.toastr.success('Group created successfully!');
+            this.groupForm.reset();
           },
           error: () => {
             this.toastr.error('Error creating group');

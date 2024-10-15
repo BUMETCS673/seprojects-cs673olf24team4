@@ -8,7 +8,7 @@ import { AdminData } from '../admin-login-dialog/admin-login-dialog.component';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8085/api/admin/authenticate';
+  private apiUrl = 'https://seprojects-cs673olf24team4.onrender.com/api/admin/authenticate';
 
   private adminUsername: string | null = null;
   private adminPassword: string | null = null;

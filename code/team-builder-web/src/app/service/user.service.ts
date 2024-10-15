@@ -9,7 +9,7 @@ import { AdminData } from '../admin-login-dialog/admin-login-dialog.component';
 })
 export class UserService {
 
-  private baseUrl = 'http://localhost:8085/api/users';
+  private baseUrl = 'https://seprojects-cs673olf24team4.onrender.com/api/users';
 
   constructor(private http: HttpClient) { }
 

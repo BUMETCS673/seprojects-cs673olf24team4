@@ -11,7 +11,7 @@ import { AdminData } from '../admin-login-dialog/admin-login-dialog.component';
 })
 export class GroupService {
 
-  private apiUrl = 'http://localhost:8085/api/groups';
+  private apiUrl = 'https://seprojects-cs673olf24team4.onrender.com/api/groups';
 
   constructor(private http: HttpClient) {}
 
