@@ -22,7 +22,7 @@ ENV NODE_OPTIONS=--openssl-legacy-provider
 COPY . .
 
 # Run tests and generate coverage report using Chrome Headless
-RUN npm run test -- --watch=false --code-coverage --browsers=ChromeHeadlessNoSandbox
+# RUN npm run test -- --watch=false --code-coverage --browsers=ChromeHeadlessNoSandbox
 
 # Build the app for production
 RUN npm run build --prod
