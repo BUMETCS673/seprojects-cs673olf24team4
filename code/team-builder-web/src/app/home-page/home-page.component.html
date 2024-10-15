@@ -1,16 +1,29 @@
 <div class="home-page-container">
     <mat-card class="home-card" appearance="outlined">
-        <mat-card-content>
-            @if(!authService.isLoggedIn()) {
-                <div class="login-button">
-                    <button mat-flat-button color="primary" (click)="openDialog()">Login as Admin</button>
-                </div>
-            }
-            @else {
-                <div class="login-button">
-                    <button mat-button>Logged in as Admin</button>
-                </div>
-            }
+        <mat-card-content>          
+            <mat-form-field appearance="outline">
+                <mat-label>Select Group</mat-label>
+                <mat-select [formControl]="selectedGroup" (selectionChange)="onGroupSelect()">
+                    <mat-option *ngFor="let group of groups" [value]="group.id">
+                        {{ group.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-accordion *ngIf="teams.length > 0">
+                <mat-expansion-panel *ngFor="let team of teams">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Team {{ team.teamNumber }}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list>
+                        <mat-list-item *ngFor="let member of team.members">
+                            {{ member.name }}
+                        </mat-list-item>
+                    </mat-list>
+                </mat-expansion-panel>
+            </mat-accordion>
         </mat-card-content>
     </mat-card>
 </div>

@@ -42,6 +42,12 @@
         </a>
       }
     </mat-nav-list>
+    <mat-divider></mat-divider>
+    <div class="admin-login-section">
+      <mat-slide-toggle [(ngModel)]="adminToggle" (change)="toggleAdminLogin()">
+        {{ adminToggle ? 'Logout as Admin' : 'Login as Admin' }}
+      </mat-slide-toggle>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <!-- This is where the routed components will be rendered -->
