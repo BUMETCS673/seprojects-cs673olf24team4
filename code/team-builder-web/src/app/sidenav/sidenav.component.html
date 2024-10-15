@@ -5,7 +5,7 @@
       [mode]="'side'"
       >
     <mat-nav-list>
-      <a mat-list-item href="#">
+      <a mat-list-item routerLink="/home">
         <div class="sidenav-list-item">
           <span class="material-symbols-outlined">home</span>
           <span>Home</span>
@@ -17,13 +17,45 @@
           <span>Add User</span>
         </div>
       </a>
-      <a mat-list-item routerLink="/view-users">
-        <div class="sidenav-list-item">
-          <span class="material-symbols-outlined">groups</span>
-          <span>View Users</span>
-        </div>  
-      </a>
+      @if (authService.isLoggedIn()) {
+        <a mat-list-item routerLink="/view-users">
+          <div class="sidenav-list-item">
+            <span class="material-symbols-outlined">groups</span>
+            <span>View Users</span>
+          </div>  
+        </a>
+      }
+      @if (authService.isLoggedIn()) {
+        <a mat-list-item routerLink="/create-edit-group">
+          <div class="sidenav-list-item">
+            <span class="material-symbols-outlined">group_add</span>
+            <span>Create Group</span>
+          </div>
+        </a>
+      }
+      @if (authService.isLoggedIn()) {
+        <a mat-list-item routerLink="/form-teams">
+          <div class="sidenav-list-item">
+            <span class="material-symbols-outlined">diversity_3</span>
+            <span>Form Teams</span>
+          </div>
+        </a>
+      }
+      @if (authService.isLoggedIn()) {
+        <a mat-list-item routerLink="/assign-user-to-group">
+          <div class="sidenav-list-item">
+            <span class="material-symbols-outlined">person_add</span>
+            <span>Assign User to Group</span>
+          </div>
+        </a>
+      }
     </mat-nav-list>
+    <mat-divider></mat-divider>
+    <div class="admin-login-section">
+      <mat-slide-toggle [(ngModel)]="adminToggle" (change)="toggleAdminLogin()">
+        {{ adminToggle ? 'Logout as Admin' : 'Login as Admin' }}
+      </mat-slide-toggle>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <!-- This is where the routed components will be rendered -->
