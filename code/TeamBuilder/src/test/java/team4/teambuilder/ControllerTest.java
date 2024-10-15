@@ -1,6 +1,8 @@
 package team4.teambuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -8,6 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import team4.teambuilder.model.User;
+import team4.teambuilder.model.Admin;
+import team4.teambuilder.service.AdminService;
+import team4.teambuilder.repository.AdminRepository;
 import team4.teambuilder.model.Group;
 
 import java.util.Arrays;
@@ -25,8 +30,26 @@ public class ControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private AdminRepository adminRepository;
+
+    @Autowired
+    private AdminService adminService;
+
     private static final String ADMIN_USERNAME = "admin";
     private static final String ADMIN_PASSWORD = "password123";
+
+    @BeforeEach
+    public void setUp() {
+        // Clear existing data
+        adminRepository.deleteAll();
+
+        // Create a test admin
+        Admin admin = new Admin();
+        admin.setUsername(ADMIN_USERNAME);
+        admin.setPassword(ADMIN_PASSWORD);
+        adminService.createAdmin(admin);
+    }
 
     //UserAPI Test
 
