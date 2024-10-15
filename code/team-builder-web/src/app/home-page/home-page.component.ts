@@ -83,7 +83,7 @@ export class HomePageComponent {
         // if needed
       },
       error: () => { 
-        this.toastr.error('Error saving user'); 
+        this.toastr.error('Error fetching all groups'); 
       }
     });
   }
