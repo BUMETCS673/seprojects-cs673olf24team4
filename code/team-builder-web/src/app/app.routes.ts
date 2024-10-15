@@ -13,5 +13,6 @@ export const routes: Routes = [
     {path: 'view-users', component: ViewUsersComponent, canActivate: [AuthGuard]},
     {path: 'create-edit-group', component: CreateEditGroupComponent, canActivate: [AuthGuard]},
     {path: 'create-edit-group/:id', component: CreateEditGroupComponent, canActivate: [AuthGuard]},
-    {path: 'form-teams', component: FormTeamsComponent, canActivate: [AuthGuard]}
+    {path: 'form-teams', component: FormTeamsComponent, canActivate: [AuthGuard]},
+    {path: 'home/:id', component: HomePageComponent}
 ];

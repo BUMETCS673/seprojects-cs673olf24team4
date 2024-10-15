@@ -19,10 +19,14 @@
                             </mat-list-item>
                         </mat-list>
 
-                        <!-- Button to edit selected group, form teams for the selected group -->
+                        <!-- Button to edit selected group-->
                         <mat-action-row>
                             <button mat-flat-button color="primary" (click)="editGroup(group)">Edit group</button>
-                            <button mat-flat-button color="primary" (click)="formTeams(group)">Form Teams</button>
+                        </mat-action-row>
+                        <!-- Button to form teams for the selected group -->
+                        <mat-action-row>
+                            <input class="team-count-input" matInput type="number" [formControl]="teamCount" [min]="1" required/>
+                            <button mat-flat-button color="primary" (click)="formTeams(group)" [disabled]="teamCount.invalid">Form Teams</button>
                         </mat-action-row>
                     </mat-expansion-panel>
                 </mat-accordion>
