@@ -41,6 +41,14 @@
           </div>
         </a>
       }
+      @if (authService.isLoggedIn()) {
+        <a mat-list-item routerLink="/assign-user-to-group">
+          <div class="sidenav-list-item">
+            <span class="material-symbols-outlined">person_add</span>
+            <span>Assign User to Group</span>
+          </div>
+        </a>
+      }
     </mat-nav-list>
     <mat-divider></mat-divider>
     <div class="admin-login-section">

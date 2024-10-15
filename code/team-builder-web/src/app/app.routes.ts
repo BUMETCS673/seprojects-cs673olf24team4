@@ -5,6 +5,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CreateEditGroupComponent } from './create-edit-group/create-edit-group.component';
 import { FormTeamsComponent } from './form-teams/form-teams.component';
+import { AssignUserToGroupComponent } from './assign-user-to-group/assign-user-to-group.component';
 
 export const routes: Routes = [
     {path: 'home', component: HomePageComponent},
@@ -14,5 +15,6 @@ export const routes: Routes = [
     {path: 'create-edit-group', component: CreateEditGroupComponent, canActivate: [AuthGuard]},
     {path: 'create-edit-group/:id', component: CreateEditGroupComponent, canActivate: [AuthGuard]},
     {path: 'form-teams', component: FormTeamsComponent, canActivate: [AuthGuard]},
-    {path: 'home/:id', component: HomePageComponent}
+    {path: 'home/:id', component: HomePageComponent},
+    {path: 'assign-user-to-group', component: AssignUserToGroupComponent}
 ];
