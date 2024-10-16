@@ -17,6 +17,8 @@ import { CommonModule } from '@angular/common';
 import { ALL_SKILLS } from '../constants/skills.constants';
 import { User } from '../model/user.model';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../service/auth.service';
+import { AdminData } from '../admin-login-dialog/admin-login-dialog.component';
 
 @Component({
   selector: 'user-details',
@@ -56,6 +58,7 @@ export class UserDetailsComponent {
     private fb: FormBuilder, 
     private route: ActivatedRoute, 
     private userService: UserService,
+    private authService: AuthService,
     private toastr: ToastrService
   ) {
     this.userForm = this.fb.group({
@@ -95,14 +98,24 @@ export class UserDetailsComponent {
       // check if in edit mode
       const id = this.route.snapshot.paramMap.get('id');
       if (id && id.length > 0) {
-        this.userService.updateUser(id, user).subscribe({
-          complete: () => { 
-            this.toastr.success('User updated successfully!'); 
-          },
-          error: () => { 
-            this.toastr.error('Error updating user'); 
+        const adminUsername = this.authService.getUsername();
+        const adminPassword = this.authService.getPassword();
+        if (adminUsername && adminPassword) {
+          const adminData: AdminData = {
+            username: adminUsername,
+            password: adminPassword
           }
-        });
+          this.userService.updateUser(id, user, adminData).subscribe({
+            complete: () => { 
+              this.toastr.success('User updated successfully!'); 
+            },
+            error: () => { 
+              this.toastr.error('Error updating user'); 
+            }
+          });
+        } else {
+          console.error('Admin credentials not set'); 
+        }
       } else {
         this.userService.createUser(user).subscribe({
           complete: () => { 

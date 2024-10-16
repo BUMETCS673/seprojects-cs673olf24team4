@@ -7,6 +7,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../service/auth.service';
+import { AdminData } from '../admin-login-dialog/admin-login-dialog.component';
 
 @Component({
   selector: 'view-users',
@@ -26,7 +28,11 @@ export class ViewUsersComponent {
 
   displayedColumns: string[] = ['name', 'email', 'role', 'answers', 'actions'];
 
-  constructor(private router: Router, private userService: UserService, private toastr: ToastrService) {
+  constructor(
+    private router: Router, 
+    private userService: UserService,
+    private authService: AuthService, 
+    private toastr: ToastrService) {
     
   }
 
@@ -39,19 +45,51 @@ export class ViewUsersComponent {
   }
 
   deleteUser(user: User) {
-    this.userService.deleteUser(user.id).subscribe({
-      complete: () => { 
-        this.toastr.success('User deleted successfully!'); 
-        this.loadAllUsers();
-      },
-      error: () => { 
-        this.toastr.error('Error deleting user'); 
+    const adminUsername = this.authService.getUsername();
+    const adminPassword = this.authService.getPassword();
+    if (adminUsername && adminPassword) {
+      const adminData: AdminData = {
+        username: adminUsername,
+        password: adminPassword
       }
-    });
+      this.userService.deleteUser(user.id, adminData).subscribe({
+        complete: () => { 
+          this.toastr.success('User deleted successfully!'); 
+          this.loadAllUsers();
+        },
+        error: () => { 
+          this.toastr.error('Error deleting user'); 
+        }
+      });
+    } else {
+      console.error('Admin credentials not set'); 
+    }
+    
   }
 
   loadAllUsers() {
-    this.userService.getAllUsers().subscribe(data => this.users = data);
+    const adminUsername = this.authService.getUsername();
+    const adminPassword = this.authService.getPassword();
+    if (adminUsername && adminPassword) {
+      const adminData: AdminData = {
+        username: adminUsername,
+        password: adminPassword
+      }
+      this.userService.getAllUsers(adminData).subscribe({
+        next: (data) => {
+          this.users = data;
+        },
+        complete: () => { 
+          // if needed
+        },
+        error: () => { 
+          this.toastr.error('Unexpected error in getting all users'); 
+        }
+      });
+    } else {
+      console.error('Admin credentials not set'); 
+    }
+    
   }
 
 }

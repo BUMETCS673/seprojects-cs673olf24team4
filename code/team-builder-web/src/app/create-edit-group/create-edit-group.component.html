@@ -1,0 +1,37 @@
+<div class="group-container">
+    <form [formGroup]="groupForm" (ngSubmit)="submit()" style="height: 100%;">
+        <div class="form-container">
+            <div class="form-columns">
+                <mat-card class="group-card" appearance="outlined">
+                    <mat-card-header>
+                        <mat-card-title>Name</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Group Name</mat-label>
+                            <input matInput formControlName="name" placeholder="Enter group name" />
+                        </mat-form-field>
+                    </mat-card-content>
+                </mat-card>
+                <mat-card class="group-card" appearance="outlined">
+                    <mat-card-header>
+                        <mat-card-title>Users</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <mat-form-field [appearance]="'outline'">
+                            <mat-label>Select users (Not yet implemented)</mat-label>
+                            <mat-select formControlName="selectedUsers" multiple [compareWith]="compareUsers">
+                                <mat-option *ngFor="let user of allUsers" [value]="user">
+                                  {{ user.name }}
+                                </mat-option>
+                              </mat-select>
+                        </mat-form-field>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="submit-button">
+                <button mat-flat-button color="primary" type="submit" [disabled]="groupForm.invalid">Create</button>
+            </div>
+        </div>
+    </form>
+</div>
